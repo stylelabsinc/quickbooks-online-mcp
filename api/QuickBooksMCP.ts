@@ -220,13 +220,13 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_customer", { description: "Delete (make inactive) a customer in QuickBooks Online.", inputSchema: { id: z.string().describe("Customer ID") } }, async ({ id }) => {
-        try {
-          const result = await this.qbService.sparseUpdate("Customer", id, { Active: false })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_customer", { description: "Delete (make inactive) a customer in QuickBooks Online.", inputSchema: { id: z.string().describe("Customer ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const result = await this.qbService.sparseUpdate("Customer", id, { Active: false })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_customers", { description: "Search customers in QuickBooks Online. Filterable fields: Id, DisplayName, GivenName, FamilyName, CompanyName, PrimaryEmailAddr, PrimaryPhone, Balance, Active, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -283,16 +283,16 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_invoice", { description: "Void an invoice in QuickBooks Online. Sets the invoice status to voided.", inputSchema: { id: z.string().describe("Invoice ID") } }, async ({ id }) => {
-        try {
-          const current = await this.qbService.read("Invoice", id)
-          const voided = { Id: current.Id, SyncToken: current.SyncToken, sparse: true }
-          // QB voids invoices via a POST to the invoice endpoint with ?operation=void (not delete)
-          const result = await this.qbService.void("Invoice", voided)
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_invoice", { description: "Void an invoice in QuickBooks Online. Sets the invoice status to voided.", inputSchema: { id: z.string().describe("Invoice ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const current = await this.qbService.read("Invoice", id)
+    // [prod: deletes disabled] const voided = { Id: current.Id, SyncToken: current.SyncToken, sparse: true }
+    // [prod: deletes disabled] // QB voids invoices via a POST to the invoice endpoint with ?operation=void (not delete)
+    // [prod: deletes disabled] const result = await this.qbService.void("Invoice", voided)
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_invoices", { description: "Search invoices in QuickBooks Online. Filterable fields: Id, DocNumber, TxnDate, DueDate, CustomerRef, Balance, TotalAmt, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -341,13 +341,13 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_account", { description: "Delete (make inactive) a chart-of-accounts entry in QuickBooks Online.", inputSchema: { id: z.string().describe("Account ID") } }, async ({ id }) => {
-        try {
-          const result = await this.qbService.sparseUpdate("Account", id, { Active: false })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_account", { description: "Delete (make inactive) a chart-of-accounts entry in QuickBooks Online.", inputSchema: { id: z.string().describe("Account ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const result = await this.qbService.sparseUpdate("Account", id, { Active: false })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_accounts", { description: "Search chart-of-accounts entries. Filterable fields: Id, Name, AccountType, Classification, Active, CurrentBalance, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -403,13 +403,13 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_item", { description: "Delete (make inactive) an item in QuickBooks Online.", inputSchema: { id: z.string().describe("Item ID") } }, async ({ id }) => {
-        try {
-          const result = await this.qbService.sparseUpdate("Item", id, { Active: false })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_item", { description: "Delete (make inactive) an item in QuickBooks Online.", inputSchema: { id: z.string().describe("Item ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const result = await this.qbService.sparseUpdate("Item", id, { Active: false })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_items", { description: "Search items in QuickBooks Online. Filterable fields: Id, Name, Active, Type, Sku, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -463,14 +463,14 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_estimate", { description: "Delete an estimate in QuickBooks Online.", inputSchema: { id: z.string().describe("Estimate ID") } }, async ({ id }) => {
-        try {
-          const current = await this.qbService.read("Estimate", id)
-          const result = await this.qbService.delete("Estimate", { Id: current.Id, SyncToken: current.SyncToken })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_estimate", { description: "Delete an estimate in QuickBooks Online.", inputSchema: { id: z.string().describe("Estimate ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const current = await this.qbService.read("Estimate", id)
+    // [prod: deletes disabled] const result = await this.qbService.delete("Estimate", { Id: current.Id, SyncToken: current.SyncToken })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_estimates", { description: "Search estimates in QuickBooks Online. Filterable fields: Id, DocNumber, TxnDate, TxnStatus, CustomerRef, TotalAmt, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -522,14 +522,14 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_bill", { description: "Delete a bill in QuickBooks Online.", inputSchema: { id: z.string().describe("Bill ID") } }, async ({ id }) => {
-        try {
-          const current = await this.qbService.read("Bill", id)
-          const result = await this.qbService.delete("Bill", { Id: current.Id, SyncToken: current.SyncToken })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_bill", { description: "Delete a bill in QuickBooks Online.", inputSchema: { id: z.string().describe("Bill ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const current = await this.qbService.read("Bill", id)
+    // [prod: deletes disabled] const result = await this.qbService.delete("Bill", { Id: current.Id, SyncToken: current.SyncToken })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_bills", { description: "Search bills in QuickBooks Online. Filterable fields: Id, DocNumber, TxnDate, DueDate, VendorRef, Balance, TotalAmt, APAccountRef, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -596,13 +596,13 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_vendor", { description: "Delete (make inactive) a vendor in QuickBooks Online.", inputSchema: { id: z.string().describe("Vendor ID") } }, async ({ id }) => {
-        try {
-          const result = await this.qbService.sparseUpdate("Vendor", id, { Active: false })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_vendor", { description: "Delete (make inactive) a vendor in QuickBooks Online.", inputSchema: { id: z.string().describe("Vendor ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const result = await this.qbService.sparseUpdate("Vendor", id, { Active: false })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_vendors", { description: "Search vendors in QuickBooks Online. Filterable fields: Id, DisplayName, GivenName, FamilyName, CompanyName, Active, Balance, Vendor1099, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -669,13 +669,13 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_employee", { description: "Delete (make inactive) an employee in QuickBooks Online.", inputSchema: { id: z.string().describe("Employee ID") } }, async ({ id }) => {
-        try {
-          const result = await this.qbService.sparseUpdate("Employee", id, { Active: false })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_employee", { description: "Delete (make inactive) an employee in QuickBooks Online.", inputSchema: { id: z.string().describe("Employee ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const result = await this.qbService.sparseUpdate("Employee", id, { Active: false })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_employees", { description: "Search employees in QuickBooks Online. Filterable fields: Id, DisplayName, GivenName, FamilyName, Active, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -724,14 +724,14 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_journal_entry", { description: "Delete a journal entry in QuickBooks Online.", inputSchema: { id: z.string().describe("Journal entry ID") } }, async ({ id }) => {
-        try {
-          const current = await this.qbService.read("JournalEntry", id)
-          const result = await this.qbService.delete("JournalEntry", { Id: current.Id, SyncToken: current.SyncToken })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_journal_entry", { description: "Delete a journal entry in QuickBooks Online.", inputSchema: { id: z.string().describe("Journal entry ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const current = await this.qbService.read("JournalEntry", id)
+    // [prod: deletes disabled] const result = await this.qbService.delete("JournalEntry", { Id: current.Id, SyncToken: current.SyncToken })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_journal_entries", { description: "Search journal entries in QuickBooks Online. Filterable fields: Id, DocNumber, TxnDate, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -790,14 +790,14 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_bill_payment", { description: "Delete a bill payment in QuickBooks Online.", inputSchema: { id: z.string().describe("Bill payment ID") } }, async ({ id }) => {
-        try {
-          const current = await this.qbService.read("BillPayment", id)
-          const result = await this.qbService.delete("BillPayment", { Id: current.Id, SyncToken: current.SyncToken })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_bill_payment", { description: "Delete a bill payment in QuickBooks Online.", inputSchema: { id: z.string().describe("Bill payment ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const current = await this.qbService.read("BillPayment", id)
+    // [prod: deletes disabled] const result = await this.qbService.delete("BillPayment", { Id: current.Id, SyncToken: current.SyncToken })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_bill_payments", { description: "Search bill payments in QuickBooks Online. Filterable fields: Id, VendorRef, TxnDate, PayType, TotalAmt, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
@@ -850,14 +850,14 @@ export class QuickBooksMCP extends McpAgent<Env, unknown, QBAuthContext> {
       }
     )
 
-    server.registerTool("delete_purchase", { description: "Delete a purchase in QuickBooks Online.", inputSchema: { id: z.string().describe("Purchase ID") } }, async ({ id }) => {
-        try {
-          const current = await this.qbService.read("Purchase", id)
-          const result = await this.qbService.delete("Purchase", { Id: current.Id, SyncToken: current.SyncToken })
-          return this.formatResponse(result)
-        } catch (e) { return this.formatError(e) }
-      }
-    )
+    // [prod: deletes disabled] server.registerTool("delete_purchase", { description: "Delete a purchase in QuickBooks Online.", inputSchema: { id: z.string().describe("Purchase ID") } }, async ({ id }) => {
+    // [prod: deletes disabled] try {
+    // [prod: deletes disabled] const current = await this.qbService.read("Purchase", id)
+    // [prod: deletes disabled] const result = await this.qbService.delete("Purchase", { Id: current.Id, SyncToken: current.SyncToken })
+    // [prod: deletes disabled] return this.formatResponse(result)
+    // [prod: deletes disabled] } catch (e) { return this.formatError(e) }
+    // [prod: deletes disabled] }
+    // [prod: deletes disabled] )
 
     server.registerTool("search_purchases", { description: "Search purchases in QuickBooks Online. Filterable fields: Id, TxnDate, PaymentType, AccountRef, EntityRef, TotalAmt, MetaData.CreateTime, MetaData.LastUpdatedTime.", inputSchema: searchOptionsSchema }, async (opts) => {
       try {
